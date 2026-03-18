@@ -3,4 +3,3 @@ robotframework-browser
 robotframework-seleniumlibrary
 robotframework-robocop
 robotframework-tidy
-rfbrowser init
