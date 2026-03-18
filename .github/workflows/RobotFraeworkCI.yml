@@ -4,11 +4,9 @@ name: Robot Framework CI
 
 on:
   push:
-    branches:
-      - master
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - SampleCI
+    branches: [ "sampleCI" ]
   workflow_dispatch:
 
 jobs:
