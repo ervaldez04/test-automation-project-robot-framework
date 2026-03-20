@@ -30,8 +30,8 @@ jobs:
    
       - name: Test with RobotFramework
         run: |
-          robot --variable BROWSER=chrome \
-                --variable HEADLESS=True \
+          robot --variable browser=chrome \
+                --variable headless=True \
                 .  
          
       - name: Test Report Generation

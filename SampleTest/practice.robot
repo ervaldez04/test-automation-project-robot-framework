@@ -1,7 +1,7 @@
 *** Settings ***
 Resource    ../Configurations/ImportGenericFile/GenericFile.robot
 Documentation    Practice
-Suite Setup    New Browser    chromium    No
+Suite Setup    New Browser    chromium    headless=${False}
 
 *** Test Cases ***
 First Test Case
