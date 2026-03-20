@@ -1,11 +1,7 @@
 *** Settings ***
 
-### Libraries ###
-# Library    Browser
-# Library    Selenium2Library
-
 ### Variables ###
-Resource    ../ImportVariable/GlobalVariables.robot
+Resource    ../ImportVariable/PlaygroundBankVariables.robot
 
 ### Keywords ###
 Resource    ../ImportGenericFile/GenericFile.robot
