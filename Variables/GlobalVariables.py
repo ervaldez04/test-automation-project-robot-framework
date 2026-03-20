@@ -1,7 +1,7 @@
 ### Note: alhabetically arrange ###
 
 ### Generic Data ###
-BROWSER = chromium
+BROWSER = "chromium"
 HEADLESS = False
 
 ### URLs ###
