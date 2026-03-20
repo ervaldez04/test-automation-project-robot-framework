@@ -9,5 +9,12 @@ Get System Date
     ${date}    Get Current Date    result_format=%Y-%m-%d
     Log    ${date}
 
-# Open Desired Browser
-#     [Documentation]    Open Browser supported by Robot Framework
+Open Browser With Options
+    [Arguments]    ${url}    ${browser}    ${options}
+    ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
+    Call Method    ${options}    add_argument    --headless=new
+    Call Method    ${options}    add_argument    --no-sandbox
+    Call Method    ${options}    add_argument    --disable-dev-shm-usage
+    Call Method    ${options}    add_argument    --disable-gpu
+    Call Method    ${options}    add_argument    --window-size=1920,1080
+    Open Browser    ${url}    ${browser}    options=${options}

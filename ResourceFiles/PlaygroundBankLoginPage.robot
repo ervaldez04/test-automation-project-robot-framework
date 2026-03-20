@@ -6,4 +6,5 @@ Resource    ../Configurations/ImportGenericFile/GenericFile.robot
 Navigate to Login Page
     [Documentation]    Navigate to Login Page
     [Arguments]    ${browser}    ${headless}
-    Open Browser    ${PLAYGROUND_BANK_LOGIN}    browser=${browser}    headless=${headless}
+    # Open Browser    ${PLAYGROUND_BANK_LOGIN}    browser=${browser}    headless=${headless}
+    Open Browser    ${PLAYGROUND_BANK_LOGIN}    browser=${browser}

@@ -31,6 +31,11 @@ jobs:
       - name: ⚙️ Install ChromeDriver
         run: |
           pip install webdriver-manager
+
+      - name: 🐞 Debug Chrome
+        run: |
+          google-chrome --version
+          chromedriver --version || true
    
       - name: 🧪 Test with RobotFramework
         run: |
@@ -40,7 +45,7 @@ jobs:
                 --outputdir results \
                 .  
          
-      - name: 📤 Test Report Generation
+      - name: 📊 Test Report Generation
         uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
