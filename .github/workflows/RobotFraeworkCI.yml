@@ -30,7 +30,7 @@ jobs:
    
       - name: Test with RobotFramework
         run: |
-          robot --variable browser:chrome \
+          robot --variable browser:chromium \
                 --variable HEADLESS:True \
                 .  
          
