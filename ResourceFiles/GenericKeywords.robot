@@ -28,4 +28,6 @@ Open Browser With Options
     Run Keyword If    '${headless}'=='${True}'
     ...    Set Variable    ${options}    add_argument("--headless=new");${options}
 
+    Create WebDriver    ${browser}    options=${options}
+
     Open Browser    ${url}    ${browser}    options=${options}
