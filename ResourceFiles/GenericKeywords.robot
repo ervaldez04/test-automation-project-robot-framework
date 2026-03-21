@@ -16,11 +16,11 @@ Open Browser With Options
 
     # ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
     ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
-    # Run Keyword If    '${headless}'=='${True}'    Call Method    ${options}    add_argument    --headless-new
+    Run Keyword If    '${headless}'=='${True}'    Call Method    ${options}    add_argument    --headless
     Call Method    ${options}    add_argument    --headless-new
     Call Method    ${options}    add_argument    --no-sandbox
     Call Method    ${options}    add_argument    --disable-dev-shm-usage
-    Call Method    ${options}    add_argument    --disable-gpu
+    Run Keyword If    '${headless}'=='${True}'    Call Method    ${options}    add_argument    --disable-gpu
     Call Method    ${options}    add_argument    --window-size\=1920,1080
     Log    ${options}
 
