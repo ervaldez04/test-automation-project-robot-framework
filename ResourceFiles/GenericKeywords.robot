@@ -10,11 +10,22 @@ Get System Date
     Log    ${date}
 
 Open Browser With Options
-    [Arguments]    ${url}    ${browser}    ${options}
+    [Arguments]    ${url}    ${browser}    ${headless}
     ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
-    Call Method    ${options}    add_argument    --headless=new
-    Call Method    ${options}    add_argument    --no-sandbox
-    Call Method    ${options}    add_argument    --disable-dev-shm-usage
-    Call Method    ${options}    add_argument    --disable-gpu
-    Call Method    ${options}    add_argument    --window-size=1920,1080
+
+    # Run Keyword If    '${headless}'=='true'
+    # ...    Call Method    ${options}    add_argument    --headless=new
+
+    # # Call Method    ${options}    add_argument    "--headless=new"
+    # Call Method    ${options}    add_argument    --no-sandbox
+    # Call Method    ${options}    add_argument    --disable-dev-shm-usage
+    # Call Method    ${options}    add_argument    --disable-gpu
+    # Call Method    ${options}    add_argument    --window-size=1920,1080
+    # Open Browser    ${url}    ${browser}    options=${options}
+
+    ${options}=    Set Variable    add_argument("--no-sandbox");add_argument("--disable-dev-shm-usage");add_argument("--window-size=1920,1080")
+
+    Run Keyword If    '${headless}'=='${True}'
+    ...    Set Variable    ${options}    add_argument("--headless=new");${options}
+
     Open Browser    ${url}    ${browser}    options=${options}

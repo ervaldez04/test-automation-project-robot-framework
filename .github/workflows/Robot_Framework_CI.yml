@@ -28,9 +28,8 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: ⚙️ Install ChromeDriver
-        run: |
-          pip install webdriver-manager
+      - name: 🌐 Install Chrome
+        uses: browser-actions/setup-chrome@v1
 
       - name: 🐞 Debug Chrome
         run: |
@@ -40,7 +39,8 @@ jobs:
       - name: 🧪 Test with RobotFramework
         run: |
           robot \
-                --variable browser:headlesschrome \
+                --variable browser:chrome \
+                --variable HEADLESS:true \
                 --outputdir results \
                 .  
          
@@ -49,4 +49,4 @@ jobs:
         if: success() || failure()
         with:
           name: Report                # Name of the folder
-          path: report.html           # Path to test results
+          path: results/          # Path to test results
