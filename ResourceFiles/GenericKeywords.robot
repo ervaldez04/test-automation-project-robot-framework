@@ -33,7 +33,7 @@ Open Browser With Options
     Call Method    ${options}    add_argument    "--window-size\=1920,1080"
     
     Run Keyword If    '${headless}'=='${True}'
-    ...    Set Variable    ${options}    add_argument("--headless=new");${options}
+    ...    Set Variable    ${options}    add_argument("--headless");${options}
 
     Create WebDriver    ${WEBDRIVER_CHROME}    options=${options}
 
