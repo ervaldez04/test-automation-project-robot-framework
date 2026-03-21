@@ -28,14 +28,16 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: 🌐 Install Chrome
+      - name: 🌐 Install Chrome + dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-
-      - name: Install ChromeDriver
-        run: |
-          pip install webdriver-manager
+          sudo apt-get install -y google-chrome-stable \
+          libnss3 \
+          libxss1 \
+          libasound2 \
+          libatk-bridge2.0-0 \
+          libgtk-3-0 \
+          libgbm1
 
       - name: 🐞 Debug Chrome
         run: |
