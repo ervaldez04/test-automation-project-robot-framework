@@ -12,6 +12,8 @@ Get System Date
 Open Browser With Options
     [Arguments]    ${url}    ${browser}    ${headless}
 
+    Log    ${browser}
+
     # ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
     ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
     # Run Keyword If    '${headless}'=='${True}'    Call Method    ${options}    add_argument    --headless-new
