@@ -29,7 +29,9 @@ Open Browser With Options
     # Call Method    ${options}    add_argument    --headless=new
     Call Method    ${options}    add_argument    "--no-sandbox"
     Call Method    ${options}    add_argument    "--disable-dev-shm-usage"
-
+    Call Method    ${options}    add_argument    "--disable-gpu"
+    Call Method    ${options}    add_argument    "--window-size=1920,1080"
+    
     Run Keyword If    '${headless}'=='${True}'
     ...    Set Variable    ${options}    add_argument("--headless=new");${options}
 
