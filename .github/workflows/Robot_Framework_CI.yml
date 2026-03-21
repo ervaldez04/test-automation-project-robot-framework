@@ -33,6 +33,9 @@ jobs:
           pip install -r requirements.txt
           pip list
 
+      - name: Remove existing ChromeDriver
+        run: sudo rm -f /usr/bin/chromedriver
+
       - name: 🌐 Install Chrome + dependencies
         run: |
           sudo apt-get update
@@ -44,6 +47,10 @@ jobs:
           libgtk-3-0 \
           libgbm1
 
+      - name: Install matching ChromeDriver
+        run: |
+          pip install webdriver-manager
+
       - name: 🐞 Debug Chrome
         run: |
           google-chrome --version
@@ -52,7 +59,7 @@ jobs:
       - name: 🧪 Test with RobotFramework
         run: |
           robot \
-                --variable BROWSER:browserchrome \
+                --variable BROWSER:chrome \
                 --variable HEADLESS:true \
                 --outputdir results \
                 .  

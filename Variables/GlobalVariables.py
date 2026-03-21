@@ -12,6 +12,8 @@ WEBDRIVER_CHROME = "Chrome"
 ### Headless ###
 HEADLESS = False
 
+GITHUB_ACTIONS = False
+
 ### ON/OFF YES/NO ##
 NO = "NO"
 OFF = "OFF"
