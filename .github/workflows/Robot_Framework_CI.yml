@@ -48,7 +48,7 @@ jobs:
       - name: 🧪 Test with RobotFramework
         run: |
           robot \
-                --variable browser:browserchrome \
+                --variable BROWSER:browserchrome \
                 --variable HEADLESS:true \
                 --outputdir results \
                 .  
