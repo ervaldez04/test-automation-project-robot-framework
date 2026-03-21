@@ -26,7 +26,7 @@ Open Browser With Options
 
     # Only download driver in GitHub Actions
     ${is_ci}=    Get Environment Variable    GITHUB_ACTIONS    default=false
-    ${driver_path}=    Run Keyword If    '${is_ci}'=='true'    Evaluate    __import__('webdriver_manager').chrome.ChromeDriverManager().install()
+    ${driver_path}=    Run Keyword If    '${is_ci}'=='true'    Evaluate    __import__('webdriver_manager.chrome').ChromeDriverManager().install()
     ...    ELSE    Set Variable    /usr/bin/chromedriver  # local path
 
     # Run Keyword If    '${headless}'=='true'
