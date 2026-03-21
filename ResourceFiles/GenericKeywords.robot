@@ -23,11 +23,16 @@ Open Browser With Options
     # Call Method    ${options}    add_argument    --window-size=1920,1080
     # Open Browser    ${url}    ${browser}    options=${options}
 
-    ${options}=    Set Variable    add_argument("--no-sandbox");add_argument("--disable-dev-shm-usage");add_argument("--window-size=1920,1080")
+    # ${options}=    Set Variable    add_argument("--no-sandbox");add_argument("--disable-dev-shm-usage");add_argument("--window-size=1920,1080")
+
+    ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
+    # Call Method    ${options}    add_argument    --headless=new
+    Call Method    ${options}    add_argument    "--no-sandbox"
+    Call Method    ${options}    add_argument    "--disable-dev-shm-usage"
 
     Run Keyword If    '${headless}'=='${True}'
     ...    Set Variable    ${options}    add_argument("--headless=new");${options}
 
-    Create WebDriver    ${browser}    options=${options}
+    Create WebDriver    ${WEBDRIVER_CHROME}    options=${options}
 
     Open Browser    ${url}    ${browser}    options=${options}
