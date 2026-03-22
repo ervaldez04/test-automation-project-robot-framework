@@ -33,30 +33,23 @@ jobs:
           pip install -r requirements.txt
           pip list
 
-      - name: 🌐 Install Chrome
+      - name: 🔧 Get latest ChromeDriver version
+        run: |
+          DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
+          echo "Latest ChromeDriver version is $DRIVER_VERSION"
+          echo "DRIVER_VERSION=$DRIVER_VERSION" >> $GITHUB_ENV
+
+      - name: 🌐 Install matching Google Chrome
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget unzip curl gnupg
+          sudo apt-get install -y wget curl gnupg
           wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
           sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" \
             > /etc/apt/sources.list.d/google-chrome.list'
           sudo apt-get update
-          # Pin Chrome to a version that has a matching driver
-          sudo apt-get install -y google-chrome-stable=145.0.7632.159-1
+          # Install Chrome pinned to the same version as ChromeDriver
+          sudo apt-get install -y google-chrome-stable=$DRIVER_VERSION-1
           google-chrome --version
-          chromedriver --version
-
-      - name: 🔧 Install matching ChromeDriver
-        run: |
-            CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
-            CHROME_MAJOR=$(echo $CHROME_VERSION | cut -d. -f1)
-            DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_MAJOR}")
-            echo "Installing ChromeDriver version $DRIVER_VERSION for Chrome major $CHROME_MAJOR"
-            wget "https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip"
-            unzip chromedriver_linux64.zip
-            sudo mv chromedriver /usr/local/bin/
-            google-chrome --version
-            chromedriver --version
 
       - name: 🐞 Debug Chrome
         run: |
