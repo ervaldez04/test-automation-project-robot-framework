@@ -17,17 +17,17 @@ Open Browser With Options
     # ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
     ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
     Run Keyword If    '${headless}'=='${True}'    Call Method    ${options}    add_argument    --headless
-    Call Method    ${options}    add_argument    --headless-new
+    # Call Method    ${options}    add_argument    --headless-new
     Call Method    ${options}    add_argument    --no-sandbox
     Call Method    ${options}    add_argument    --disable-dev-shm-usage
     Run Keyword If    '${headless}'=='${True}'    Call Method    ${options}    add_argument    --disable-gpu
     Call Method    ${options}    add_argument    --window-size\=1920,1080
     Log    ${options}
 
-    # Only download driver in GitHub Actions
-    ${is_ci}=    Get Environment Variable    GITHUB_ACTIONS    default=false
-    ${driver_path}=    Run Keyword If    '${is_ci}'=='true'    Evaluate    __import__('webdriver_manager.chrome').chrome_driver.ChromeDriverManager().install()
-    ...    ELSE    Set Variable    /usr/bin/chromedriver  # local path
+    # # Only download driver in GitHub Actions
+    # ${is_ci}=    Get Environment Variable    GITHUB_ACTIONS    default=false
+    # ${driver_path}=    Run Keyword If    '${is_ci}'=='true'    Evaluate    __import__('webdriver_manager.chrome').chrome_driver.ChromeDriverManager().install()
+    # ...    ELSE    Set Variable    /usr/bin/chromedriver  # local path
 
     # Run Keyword If    '${headless}'=='true'
     # ...    Call Method    ${options}    add_argument    --headless=new
