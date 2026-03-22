@@ -33,11 +33,6 @@ jobs:
           pip install -r requirements.txt
           pip list
 
-      - name: 🗑️ Remove existing ChromeDriver
-        run: sudo rm -f /usr/bin/chromedriver
-          google-chrome --version
-          chromedriver --version
-
       - name: 🌐 Install Chrome
         run: |
           sudo apt-get update
@@ -46,7 +41,8 @@ jobs:
           sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" \
             > /etc/apt/sources.list.d/google-chrome.list'
           sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
+          # Pin Chrome to a version that has a matching driver
+          sudo apt-get install -y google-chrome-stable=145.0.7632.159-1
           google-chrome --version
           chromedriver --version
 
