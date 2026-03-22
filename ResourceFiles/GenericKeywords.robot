@@ -24,8 +24,8 @@ Open Browser With Options
     Call Method    ${options}    add_argument    --window-size\=1920,1080
     Log    ${options}
 
-    ${driver_path}=    Evaluate    __import__('webdriver_manager.chrome').ChromeDriverManager().install()
-    Create WebDriver    Chrome    executable_path=${driver_path}    options=${options}
+    # ${driver_path}=    Evaluate    __import__('webdriver_manager.chrome').ChromeDriverManager().install()
+    # Create WebDriver    Chrome    executable_path=${driver_path}    options=${options}
 
     # # Only download driver in GitHub Actions
     # ${is_ci}=    Get Environment Variable    GITHUB_ACTIONS    default=false
@@ -51,5 +51,5 @@ Open Browser With Options
     # ...    Set Variable    ${options}    add_argument("--headless=new");${options}
 
     Create WebDriver    ${WEBDRIVER_CHROME}    options=${options}
-
+    
     Open Browser    ${url}    ${browser}    options=${options}
