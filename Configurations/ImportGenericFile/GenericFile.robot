@@ -1,7 +1,8 @@
 *** Settings ***
 
 ### Libraries ###
-Library    Selenium2Library
+Library    SeleniumLibrary
+Library    OperatingSystem
 
 ### Variables ###
 Resource    ../ImportVariable/GlobalVariables.robot

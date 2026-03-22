@@ -1,0 +1,72 @@
+# This workflow will run Test Case
+
+name: Robot Framework CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+ 
+permissions:
+  contents: read
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        browser: [chrome]
+     
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+      
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.12.4
+   
+      - name: 📦 Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip list
+
+      - name: Remove existing ChromeDriver
+        run: sudo rm -f /usr/bin/chromedriver
+
+      - name: 🌐 Install Chrome + dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser chromium-chromedriver \
+          libnss3 \
+          libxss1 \
+          libasound2t64 \
+          libatk-bridge2.0-0 \
+          libgtk-3-0 \
+          libgbm1
+
+      - name: Install matching ChromeDriver
+        run: |
+          pip install webdriver-manager
+
+      - name: 🐞 Debug Chrome
+        run: |
+          google-chrome --version
+          chromedriver --version || true
+   
+      - name: 🧪 Test with RobotFramework
+        run: |
+          robot \
+                --variable BROWSER:chrome \
+                --variable HEADLESS:true \
+                --outputdir results \
+                .  
+         
+      - name: 📊 Test Report Generation
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: Report            # Name of the folder
+          path: results/          # Path to test results

@@ -1,5 +1,7 @@
+selenium>=4.6.0
 robotframework
 robotframework-browser
 robotframework-seleniumlibrary
 robotframework-robocop
 robotframework-tidy
+webdriver-manager
