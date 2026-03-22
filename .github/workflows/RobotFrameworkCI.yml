@@ -40,22 +40,18 @@ jobs:
           echo "Latest ChromeDriver version is $DRIVER_VERSION"
           echo "DRIVER_VERSION=$DRIVER_VERSION" >> $GITHUB_ENV
 
-      - name: 🗑️ Remove existing ChromeDriver
-        run: sudo rm -f /usr/bin/chromedriver
-          google-chrome --version
-          chromedriver --version
-
-      - name: 🔧 Install ChromeDriver
+      - name: 🔍 Detect ChromeDriver version
         run: |
-          DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
-          echo "Installing ChromeDriver version $DRIVER_VERSION"
-          wget "https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip"
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/
-          chromedriver --version
-          echo "DRIVER_VERSION=$DRIVER_VERSION" >> $GITHUB_ENV
+          if command -v chromedriver >/dev/null; then
+            DRIVER_VERSION=$(chromedriver --version | awk '{print $2}')
+            echo "Detected ChromeDriver version: $DRIVER_VERSION"
+            echo "DRIVER_VERSION=$DRIVER_VERSION" >> $GITHUB_ENV
+          else
+            echo "❌ No ChromeDriver found in PATH"
+            exit 1
+          fi
 
-      - name: 🌐 Install Google Chrome (matching major version)
+      - name: 🌐 Install Chrome matching ChromeDriver
         run: |
           sudo apt-get update
           sudo apt-get install -y wget curl gnupg
@@ -63,16 +59,20 @@ jobs:
           sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" \
             > /etc/apt/sources.list.d/google-chrome.list'
           sudo apt-get update
+
           CHROME_MAJOR=$(echo $DRIVER_VERSION | cut -d. -f1)
           echo "Target Chrome major version: $CHROME_MAJOR"
+
           # Install latest Chrome available
           sudo apt-get install -y google-chrome-stable
           INSTALLED_MAJOR=$(google-chrome --version | awk '{print $3}' | cut -d. -f1)
           echo "Installed Chrome major: $INSTALLED_MAJOR"
+
           if [ "$INSTALLED_MAJOR" != "$CHROME_MAJOR" ]; then
             echo "⚠️ Chrome major $INSTALLED_MAJOR does not match driver $CHROME_MAJOR"
             echo "You may need to fetch an archived Chrome .deb for major $CHROME_MAJOR"
           fi
+
           google-chrome --version
 
       - name: 🐞🔍 Debug Chrome
