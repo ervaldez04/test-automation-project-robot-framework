@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     Test Case for QA Playground Bank Login functionality
 Resource          ../Configurations/ImportKeyword/PlaygroundBankKeywords.robot
-Suite Setup       Open Browser With Options   ${PLAYGROUND_BANK_LOGIN}    ${BROWSER}    ${HEADLESS}
+Suite Setup       Open Browser With Options   ${PLAYGROUND_BANK_LOGIN}    ${BROWSER}    ${True}
 Suite Teardown    Close All Browsers
 
 *** Test Cases ***

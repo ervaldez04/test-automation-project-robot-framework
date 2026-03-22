@@ -14,6 +14,9 @@ Open Browser With Options
 
     Log    ${browser}
 
+    ${is_ci}=    Get Environment Variable    GITHUB_ACTIONS    default=false
+    ${driver_path}=    Run Keyword If    '${is_ci}'=='${True}'    Evaluate    __import__('webdriver_manager.chrome').ChromeDriverManager().install()
+
     # ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
     ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
     Run Keyword If    '${headless}'=='${True}'    Call Method    ${options}    add_argument    --headless
