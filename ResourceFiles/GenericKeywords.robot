@@ -15,7 +15,7 @@ Open Browser With Options
     Log    ${browser}
 
     # ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
-    ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
+    ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
     Run Keyword If    '${headless}'=='${True}'    Call Method    ${options}    add_argument    --headless
     # Call Method    ${options}    add_argument    --headless-new
     Call Method    ${options}    add_argument    --no-sandbox
