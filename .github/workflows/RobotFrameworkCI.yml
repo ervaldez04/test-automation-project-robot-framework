@@ -83,7 +83,6 @@ jobs:
       - name: 🧪🖥️ Test with RobotFramework
         run: |
           robot \
-                --variable BROWSER:chrome \
                 --variable HEADLESS:true \
                 --outputdir results \
                 .  
