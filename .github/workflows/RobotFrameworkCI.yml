@@ -75,12 +75,12 @@ jobs:
 
           google-chrome --version
 
-      - name: 🐞🔍 Debug Chrome
+      - name: 🔍 Check Browser Version
         run: |
           google-chrome --version
           chromedriver --version || true
    
-      - name: 🧪🖥️ Test with RobotFramework
+      - name: 🖥️ Test with RobotFramework
         run: |
           robot \
                 --variable HEADLESS:True \
