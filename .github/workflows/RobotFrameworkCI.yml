@@ -1,0 +1,95 @@
+# This workflow will run Test Case
+
+name: Robot Framework CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+ 
+permissions:
+  contents: read
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        browser: [chrome]
+     
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+      
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.12.4
+   
+      - name: 📦 Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip list
+          chromedriver --version
+
+      - name: 🔧 Get latest ChromeDriver version
+        run: |
+          DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
+          echo "Latest ChromeDriver version is $DRIVER_VERSION"
+          echo "DRIVER_VERSION=$DRIVER_VERSION" >> $GITHUB_ENV
+
+      - name: 🔍 Detect ChromeDriver version
+        run: |
+          if command -v chromedriver >/dev/null; then
+            DRIVER_VERSION=$(chromedriver --version | awk '{print $2}')
+            echo "Detected ChromeDriver version: $DRIVER_VERSION"
+            echo "DRIVER_VERSION=$DRIVER_VERSION" >> $GITHUB_ENV
+          else
+            echo "❌ No ChromeDriver found in PATH"
+            exit 1
+          fi
+
+      - name: 🌐 Install Chrome matching ChromeDriver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget curl gnupg
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" \
+            > /etc/apt/sources.list.d/google-chrome.list'
+          sudo apt-get update
+
+          CHROME_MAJOR=$(echo $DRIVER_VERSION | cut -d. -f1)
+          echo "Target Chrome major version: $CHROME_MAJOR"
+
+          # Install latest Chrome available
+          sudo apt-get install -y google-chrome-stable
+          INSTALLED_MAJOR=$(google-chrome --version | awk '{print $3}' | cut -d. -f1)
+          echo "Installed Chrome major: $INSTALLED_MAJOR"
+
+          if [ "$INSTALLED_MAJOR" != "$CHROME_MAJOR" ]; then
+            echo "⚠️ Chrome major $INSTALLED_MAJOR does not match driver $CHROME_MAJOR"
+            echo "You may need to fetch an archived Chrome .deb for major $CHROME_MAJOR"
+          fi
+
+          google-chrome --version
+
+      - name: 🔍 Check Browser Version
+        run: |
+          google-chrome --version
+          chromedriver --version || true
+   
+      - name: 🖥️ Test with RobotFramework
+        run: |
+          robot \
+                --variable HEADLESS:True \
+                --outputdir results \
+                .  
+         
+      - name: 📊 Test Report Generation
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: Report            # Name of the folder
+          path: results/          # Path to test results
