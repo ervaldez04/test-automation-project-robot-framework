@@ -24,6 +24,9 @@ Open Browser With Options
     Call Method    ${options}    add_argument    --window-size\=1920,1080
     Log    ${options}
 
+    ${driver_path}=    Evaluate    __import__('webdriver_manager.chrome').ChromeDriverManager().install()
+    Create WebDriver    Chrome    executable_path=${driver_path}    options=${options}
+
     # # Only download driver in GitHub Actions
     # ${is_ci}=    Get Environment Variable    GITHUB_ACTIONS    default=false
     # ${driver_path}=    Run Keyword If    '${is_ci}'=='true'    Evaluate    __import__('webdriver_manager.chrome').chrome_driver.ChromeDriverManager().install()
