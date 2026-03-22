@@ -50,7 +50,8 @@ jobs:
             CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
             CHROME_MAJOR=$(echo $CHROME_VERSION | cut -d. -f1)
             DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_MAJOR}")
-            wget https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip
+            echo "Installing ChromeDriver version $DRIVER_VERSION for Chrome major $CHROME_MAJOR"
+            wget "https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip"
             unzip chromedriver_linux64.zip
             sudo mv chromedriver /usr/local/bin/
             google-chrome --version
