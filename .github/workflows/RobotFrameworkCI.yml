@@ -44,7 +44,7 @@ jobs:
           google-chrome --version
           chromedriver --version
 
-      - name: 🔧 Install ChromeDriver first
+      - name: 🔧 Install ChromeDriver
         run: |
           DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
           echo "Installing ChromeDriver version $DRIVER_VERSION"
@@ -54,7 +54,7 @@ jobs:
           chromedriver --version
           echo "DRIVER_VERSION=$DRIVER_VERSION" >> $GITHUB_ENV
 
-      - name: 🌐 Install matching Google Chrome
+      - name: 🌐 Install Google Chrome (matching major version)
         run: |
           sudo apt-get update
           sudo apt-get install -y wget curl gnupg
@@ -62,14 +62,16 @@ jobs:
           sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" \
             > /etc/apt/sources.list.d/google-chrome.list'
           sudo apt-get update
-          # Install Chrome pinned to the same major version as ChromeDriver
           CHROME_MAJOR=$(echo $DRIVER_VERSION | cut -d. -f1)
-          # Find the latest Chrome package for that major version
-          apt-cache madison google-chrome-stable | grep $CHROME_MAJOR | head -1 | awk '{print $3}' > chrome_version.txt
-          CHROME_VERSION=$(cat chrome_version.txt)
-          echo "Installing Chrome version $CHROME_VERSION to match ChromeDriver $DRIVER_VERSION"
-          sudo apt-get install -y google-chrome-stable=$CHROME_VERSION
-          chromedriver --version
+          echo "Target Chrome major version: $CHROME_MAJOR"
+          # Install latest Chrome available, then check if major matches
+          sudo apt-get install -y google-chrome-stable
+          INSTALLED_MAJOR=$(google-chrome --version | awk '{print $3}' | cut -d. -f1)
+          echo "Installed Chrome major: $INSTALLED_MAJOR"
+          if [ "$INSTALLED_MAJOR" != "$CHROME_MAJOR" ]; then
+            echo "⚠️ Chrome major $INSTALLED_MAJOR does not match driver $CHROME_MAJOR"
+            echo "You may need to pin Chrome to an older package or wait for Google to publish a driver for $INSTALLED_MAJOR"
+          fi
           google-chrome --version
 
       - name: 🐞 Debug Chrome
