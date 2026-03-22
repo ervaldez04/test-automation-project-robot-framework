@@ -33,6 +33,11 @@ jobs:
           pip install -r requirements.txt
           pip list
 
+      - name: 🗑️ Remove existing ChromeDriver
+        run: sudo rm -f /usr/bin/chromedriver
+          google-chrome --version
+          chromedriver --version
+
       - name: 🌐 Install Chrome
         run: |
           sudo apt-get update
