@@ -32,6 +32,7 @@ jobs:
         run: |
           pip install -r requirements.txt
           pip list
+          chromedriver --version
 
       - name: 🔧 Get latest ChromeDriver version
         run: |
@@ -64,17 +65,17 @@ jobs:
           sudo apt-get update
           CHROME_MAJOR=$(echo $DRIVER_VERSION | cut -d. -f1)
           echo "Target Chrome major version: $CHROME_MAJOR"
-          # Install latest Chrome available, then check if major matches
+          # Install latest Chrome available
           sudo apt-get install -y google-chrome-stable
           INSTALLED_MAJOR=$(google-chrome --version | awk '{print $3}' | cut -d. -f1)
           echo "Installed Chrome major: $INSTALLED_MAJOR"
           if [ "$INSTALLED_MAJOR" != "$CHROME_MAJOR" ]; then
             echo "⚠️ Chrome major $INSTALLED_MAJOR does not match driver $CHROME_MAJOR"
-            echo "You may need to pin Chrome to an older package or wait for Google to publish a driver for $INSTALLED_MAJOR"
+            echo "You may need to fetch an archived Chrome .deb for major $CHROME_MAJOR"
           fi
           google-chrome --version
 
-      - name: 🐞 Debug Chrome
+      - name: 🐞🔍 Debug Chrome
         run: |
           google-chrome --version
           chromedriver --version || true
