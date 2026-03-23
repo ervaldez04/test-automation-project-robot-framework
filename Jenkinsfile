@@ -3,6 +3,7 @@ pipeline {
 
     parameters {
         booleanParam(name: 'HEADLESS', defaultValue: true, description: 'Run browser in headless mode')
+        string(name: 'BROWSER', defaultValue: 'chrome', description: 'Browser to use for tests')
     }
 
     stages {
@@ -13,21 +14,17 @@ pipeline {
         }
 
         stage('Install Dependencies') {
-            when {
-                branch 'main'
-            }
             steps {
                 sh 'pip install -r requirements.txt'
             }
         }
 
         stage('Run Robot Tests') {
-            when {
-                branch 'main'
-            }
-
             steps {
-                sh "robot --variable BROWSER:${params.BROWSER} --variable HEADLESS:${params.HEADLESS} TestSuite/"
+                script {
+                    def headlessValue = params.HEADLESS ? "True" : "False"
+                    sh "robot --variable BROWSER:${params.BROWSER} --variable HEADLESS:${headlessValue} TestSuite/"
+                }
             }
         }
     }
