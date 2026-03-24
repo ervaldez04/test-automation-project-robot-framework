@@ -1,6 +1,19 @@
 pipeline {
     agent any
 
+    triggers {
+        genericTrigger(
+            genericVariables: [
+                [key: 'action', value: '$.object_attributes.action'],
+                [key: 'state', value: '$.object_attributes.state'],
+                [key: 'branch', value: '$.object_attributes.target_branch']
+            ],
+            token: 'my-secret-token',
+            regexpFilterText: '$action $state $branch',
+            regexpFilterExpression: 'merge merged main'
+        )
+    }
+
     parameters {
         booleanParam(name: 'HEADLESS', defaultValue: true, description: 'Run browser in headless mode')
         string(name: 'BROWSER', defaultValue: 'chrome', description: 'Browser to use for tests')
