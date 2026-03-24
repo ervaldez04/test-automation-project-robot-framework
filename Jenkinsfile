@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     triggers {
-        genericTrigger(
+        GenericTrigger(
             genericVariables: [
                 [key: 'action', value: '$.action'],
                 [key: 'merged', value: '$.pull_request.merged'],
