@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    parameters {
+        booleanParam(name: 'HEADLESS', defaultValue: true, description: 'Run browser in headless mode')
+        string(name: 'BROWSER', defaultValue: 'chrome', description: 'Browser to use for tests')
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -13,6 +18,15 @@ pipeline {
                     bat 'python -m pip install --upgrade pip'
                     bat 'pip install -r requirements.txt'
                     bat 'python --version'
+            }
+        }
+
+        stage('Run Test Suite') {
+            steps {
+                script {
+                    def headlessValue = params.HEADLESS ? "True" : "False"
+                    sh "robot --variable BROWSER:${params.BROWSER} --variable HEADLESS:${headlessValue} TestSuite/"
+                }
             }
         }
     }
