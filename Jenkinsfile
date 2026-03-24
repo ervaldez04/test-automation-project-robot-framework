@@ -1,11 +1,5 @@
 pipeline {
-    agent {
-        // Use a Python-ready agent or Docker image
-        docker {
-            image 'python:3.11'
-            args '-u root'  // run as root if you need system installs
-        }
-    }
+    agent any
 
     stages {
         stage('Checkout') {
@@ -17,9 +11,9 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
+                    python3 -m pip install --upgrade pip
                     python --version
-                    python -m pip install --upgrade pip
-                    pip install -r requirements.txt
+                    pip install -r requirements.txtt 
                 '''
             }
         }
