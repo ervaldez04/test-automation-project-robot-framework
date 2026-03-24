@@ -4,11 +4,11 @@ pipeline {
     triggers {
         genericTrigger(
             genericVariables: [
-                [key: 'action', value: '$.object_attributes.action'],
-                [key: 'merged', value: '$.object_attributes.merged'],
-                [key: 'branch', value: '$.object_attributes.target_branch']
+                [key: 'action', value: '$.action'],
+                [key: 'merged', value: '$.pull_request.merged'],
+                [key: 'branch', value: '$.pull_request.base.ref']
             ],
-            tcauseString: 'Triggered by GitHub Pull Request merge',
+            causeString: 'Triggered by GitHub Pull Request merge',
             token: 'my-secret-token',
             printContributedVariables: true,
             printPostContent: true,
