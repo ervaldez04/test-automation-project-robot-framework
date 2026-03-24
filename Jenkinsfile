@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     def headlessValue = params.HEADLESS ? "True" : "False"
-                    sh "robot --variable BROWSER:${params.BROWSER} --variable HEADLESS:${headlessValue} TestSuite/"
+                    bat "python -m robot --variable BROWSER:${params.BROWSER} --variable HEADLESS:${headlessValue} TestSuite/"
                 }
             }
         }
