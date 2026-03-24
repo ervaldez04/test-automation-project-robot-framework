@@ -33,6 +33,7 @@ pipeline {
         stage('Publish Results') {
             steps {
                 publishHTML(target: [
+                    reportName: 'Robot Framework Report',
                     reportDir: 'results',
                     reportFiles: 'report.html',
                     keepAll: true,
