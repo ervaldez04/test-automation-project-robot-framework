@@ -29,5 +29,23 @@ pipeline {
                 }
             }
         }
+
+        stage('Publish Results') {
+            steps {
+                publishHTML(target: [
+                    reportDir: 'results',
+                    reportFiles: 'report.html',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true,
+                    allowMissing: false
+                ])
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'results/*.*', fingerprint: true
+        }
     }
 }
