@@ -10,11 +10,9 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh '''
-                    python3 -m pip install --upgrade pip
+                    bat bat 'python -m pip install --upgrade pip'
+                    bat 'pip install -r requirements.txt'
                     python --version
-                    pip install -r requirements.txtt 
-                '''
             }
         }
     }
