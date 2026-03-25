@@ -1,7 +1,7 @@
+### Note: arrange alhabetically ###
 *** Settings ***
 Documentation     Generic Keywords that can be used in any testing site
-Resource          ../Configurations/ImportGenericFile/GenericFile.robot
-Library           DateTime
+Resource          ../../Configurations/ImportGenericFile/GenericFile.robot
 
 *** Keywords ***
 Get System Date
@@ -23,3 +23,10 @@ Open Browser With Options
     Create WebDriver    ${WEBDRIVER_CHROME}    options=${options}
     
     Open Browser    ${url}    ${browser}    options=${options}
+    Maximize Browser Window
+
+### VALIDATION ###
+Validate Field Type
+    [Documentation]    Validate field type
+    [Arguments]    ${webelement}    ${field_type}    ${value}
+    Element Attribute Value Should Be    ${webelement}    ${field_type}    ${value}

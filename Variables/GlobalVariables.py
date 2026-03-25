@@ -12,6 +12,7 @@ WEBDRIVER_CHROME = "Chrome"
 ### Headless ###
 HEADLESS = False
 
+### Github ###
 GITHUB_ACTIONS = False
 
 ### ON/OFF YES/NO ##
@@ -19,3 +20,6 @@ NO = "NO"
 OFF = "OFF"
 ON = "ON"
 YES = "YES"
+
+### ALERT ###
+ACCEPT = "ACCEPT"
