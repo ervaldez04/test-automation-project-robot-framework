@@ -1,9 +1,9 @@
 *** Settings ***
 
 ### Libraries ###
-Library    SeleniumLibrary
-Library    OperatingSystem
 Library    DateTime
+Library    OperatingSystem
+Library    SeleniumLibrary
 
 ### Keywords ###
 Resource    ../../ResourceFiles/GenericKeywords/GenericKeywords.resource

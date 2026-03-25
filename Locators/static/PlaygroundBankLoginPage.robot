@@ -3,7 +3,7 @@
 
 *** Variables ***
 ${CLEAR_BUTTON}            //*[@id='clear-btn']
-${EYE_ICON_BUTTON}        //*[@id='toggle-password']
+${EYE_ICON_BUTTON}         //*[@id='toggle-password']
 ${LOGIN_BUTTON}            //*[@id='login-btn']
 ${LOGIN_ERROR_FIELD}       //*[@id='login-alert']
 ${PASSWORD_ERROR_FIELD}    //*[@id='password-error']
