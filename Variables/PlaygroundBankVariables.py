@@ -1,8 +1,16 @@
-### Note: alhabetically arrange ###
+### Note: arrange alhabetically ###
 
 ### URLs ###
+PLAYGROUND_BANK_DASHBOARD = "https://www.qaplayground.com/bank/dashboard"
 PLAYGROUND_BANK_LOGIN = "https://www.qaplayground.com/bank"
 
 ### Credentials ###
-VALID_USER = "admin"
+INVALID_PASSWORD = "admin1234"
+INVALID_USER = "admim"
 VALID_PASSWORD = "admin123"
+VALID_USER = "admin"
+
+### Login Error Message ###
+LOGIN_ERROR_MESSAGE = "Invalid username or password. Please try again."
+PASSWORD_ERROR_MESSAGE = "Password is required"
+USERNAME_ERROR_MESSAGE = "Username is required"
