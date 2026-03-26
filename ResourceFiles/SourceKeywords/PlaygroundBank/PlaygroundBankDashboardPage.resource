@@ -1,7 +1,7 @@
 ### Note: arrange alhabetically ###
 *** Settings ***
 Documentation    Keywords used in Dashboard Page of QA Playground Bank
-Resource         ../../Configurations/ImportKeyword/PlaygroundBankKeywords.robot
+Resource         ../../../Configurations/ImportKeyword/PlaygroundBankKeywords.robot
 
 *** Keywords ***
 Logout of site

@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation     Test Case for QA Playground Bank Login functionality
-Resource          ../Configurations/ImportFileSource/PlaygroundBankFileSource.robot
+Resource          ../../Configurations/ImportFileSource/PlaygroundBankFileSource.robot
 Test Tags         LoginFunctionality
 Suite Setup       Open Browser With Options   ${PLAYGROUND_BANK_LOGIN}    ${BROWSER}    ${HEADLESS}
 Suite Teardown    Close All Browsers
