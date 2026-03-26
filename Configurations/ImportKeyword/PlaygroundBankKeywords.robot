@@ -6,4 +6,4 @@ Resource    ../ImportGenericFile/GenericFile.robot
 ### Variables ###
 Resource    ../ImportVariable/PlaygroundBankVariables.robot
 Resource    ../../Locators/static/PlaygroundBank/PlaygroundBankDashboardPage.robot
-Resource    ../../Locators/static/PlaygroundBank/PlaygroundBankDashboardPage.robot
+Resource    ../../Locators/static/PlaygroundBank/PlaygroundBankLoginPage.robot
