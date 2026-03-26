@@ -22,8 +22,14 @@ Open Browser With Options
 
     Create WebDriver    ${WEBDRIVER_CHROME}    options=${options}
     
+    Set Timeout If Jenkins
     Open Browser    ${url}    ${browser}    options=${options}
     Maximize Browser Window
+
+Set Timeout If Jenkins
+    [Documentation]    Add Timeout when running in Jenkins to fix flaky test
+    ${ci}=    Get Environment Variable    CI    default=${False}
+    Run Keyword If    '${ci}'=='${True}'    Set Selenium Timeout    10s
 
 ### VALIDATION ###
 Validate Field Type
