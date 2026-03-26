@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        CI = "true"   // Flag to indicate Jenkins environment
+    }
+
     parameters {
         booleanParam(name: 'HEADLESS', defaultValue: true, description: 'Run browser in headless mode')
         string(name: 'BROWSER', defaultValue: 'chrome', description: 'Browser to use for tests')
