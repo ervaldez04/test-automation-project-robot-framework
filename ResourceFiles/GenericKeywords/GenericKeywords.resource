@@ -21,7 +21,7 @@ Open Browser With Options
     Log    ${options}
 
     Create WebDriver    ${WEBDRIVER_CHROME}    options=${options}
-    
+
     Set Timeout If Jenkins
     Open Browser    ${url}    ${browser}    options=${options}
     Maximize Browser Window

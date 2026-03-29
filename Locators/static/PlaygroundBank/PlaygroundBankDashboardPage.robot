@@ -2,4 +2,5 @@
 ### QA Playground Bank: Dashboard Page ###
 
 *** Variables ***
-${LOGOUT_BUTTON}    id:logout-btn
+${ADD_ACCOUNT_BUTTON}    id:add-account-link
+${LOGOUT_BUTTON}         id:logout-btn
