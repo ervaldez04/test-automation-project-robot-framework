@@ -11,17 +11,6 @@ pipeline {
         activeChoiceParam('TEST_FOLDERS') {
         description('Select one or more test folders to run')
         choiceType('CHECKBOX')   // or MULTI_SELECT
-        groovyScript {
-            script("""
-                def baseDir = new File("${WORKSPACE}/TestSuite")
-                if (baseDir.exists()) {
-                    return baseDir.list().findAll { new File(baseDir, it).isDirectory() }
-                } else {
-                    return ['No folders found']
-                }
-            """)
-            fallbackScript("return ['Error detecting folders']")
-            }
         }
     }
     
@@ -45,10 +34,10 @@ pipeline {
             steps {
                 script {
                     def headlessValue = params.HEADLESS ? "True" : "False"
-                    def folders = params.TEST_FOLDERS.split(',')
+                    def folders = params.TEST_FOLDERS.tokenize(',')
                     for (folder in folders) {
                         echo "▶ Running tests in TestSuite/${folder}"
-                        bat "python -m robot --variable BROWSER:${params.BROWSER} --variable HEADLESS:${headlessValue} --outputdir results/${folder.replaceAll('/', '_')} TestSuite/${folder}"
+                        bat "python -m robot --variable BROWSER:${params.BROWSER} --variable HEADLESS:${headlessValue} ---outputdir results/${folder.replaceAll('/', '_')} TestSuite/${folder}"
                     }
                 }
             }
