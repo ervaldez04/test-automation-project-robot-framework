@@ -14,12 +14,8 @@ pipeline {
             choiceType('CHECKBOX')   // or 'MULTI_SELECT'
             groovyScript {
                 script("""
-                    def baseDir = new File("${WORKSPACE}/TestSuite")
-                    if (baseDir.exists()) {
-                        return baseDir.list()
-                    } else {
-                        return ['No folders found']
-                    }
+                    // Instead of using WORKSPACE (not available yet), list static folders
+                    return ['PlaygroundBank', 'SwagLabs']
                 """)
                 fallbackScript("return ['Error detecting folders']")
             }
@@ -27,13 +23,6 @@ pipeline {
     }
     
     stages {
-        stage('Debug Webhook') {
-            steps {
-                echo "Action: ${env.action}"
-                echo "Merged: ${env.merged}"
-                echo "Branch: ${env.branch}"
-            }
-        }
         
         stage('Checkout') {
             steps {
@@ -55,7 +44,7 @@ pipeline {
                     def headlessValue = params.HEADLESS ? "True" : "False"
                     def folders = params.TEST_FOLDERS.tokenize(',')
                     for (folder in folders) {
-                        echo "▶ Running tests in ${folder}"
+                        echo "▶ Running tests in TestSuite/${folder}"
                         bat "python -m robot --variable BROWSER:${params.BROWSER} --variable HEADLESS:${headlessValue} --outputdir results/${folder.replaceAll('/', '_')} TestSuite/${folder}"
                     }
                 }
@@ -64,6 +53,10 @@ pipeline {
 
         stage('Publish Results') {
             steps {
+                script {
+                    // Merge all outputs into one consolidated report
+                    bat "rebot --merge --output results/output.xml --report results/report.html --log results/log.html results/*/output.xml"
+                }
                 publishHTML(target: [
                     reportName: 'Robot Framework Report',
                     reportDir: 'results',
@@ -78,7 +71,7 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: 'results/*.*', fingerprint: true
+            archiveArtifacts artifacts: 'results/**/*.*', fingerprint: true
         }
     }
 }
