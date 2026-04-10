@@ -21,6 +21,7 @@ pipeline {
                 }
             """)
             fallbackScript("return ['Error detecting folders']")
+            }
         }
     }
     
