@@ -33,43 +33,42 @@ pipeline {
         )
     }
         
-        stage('Checkout') {
-            steps {
+    stage('Checkout') {
+        steps {
                 git branch: 'main', url: 'https://github.com/ervaldez04/test-automation-project-robot-framework.git'
-            }
         }
+    }
 
-        stage('Install Dependencies') {
-            steps {
-                bat 'python -m pip install --upgrade pip'
-                bat 'pip install -r requirements.txt'
-                bat 'python --version'
-            }
+    stage('Install Dependencies') {
+        steps {
+            bat 'python -m pip install --upgrade pip'
+            bat 'pip install -r requirements.txt'
+            bat 'python --version'
         }
+    }
 
-        stage('Run Test Suite') {
-            steps {
-                script {
-                    def headlessValue = params.HEADLESS ? "True" : "False"
-                    def includeOption = params.INCLUDE_TAG != 'none' ? "--include ${params.INCLUDE_TAG}" : ""
-                    def excludeOption = params.EXCLUDE_TAG != 'none' ? "--exclude ${params.EXCLUDE_TAG}" : ""
+    stage('Run Test Suite') {
+        steps {
+            script {
+                def headlessValue = params.HEADLESS ? "True" : "False"
+                def includeOption = params.INCLUDE_TAG != 'none' ? "--include ${params.INCLUDE_TAG}" : ""
+                def excludeOption = params.EXCLUDE_TAG != 'none' ? "--exclude ${params.EXCLUDE_TAG}" : ""
                     
-                    bat "python -m robot --variable BROWSER:${params.BROWSER} --variable HEADLESS:${headlessValue} --outputdir results ${includeOption} ${excludeOption} ${params.TEST_FOLDER}"
-                }
+                bat "python -m robot --variable BROWSER:${params.BROWSER} --variable HEADLESS:${headlessValue} --outputdir results ${includeOption} ${excludeOption} ${params.TEST_FOLDER}"
             }
         }
+    }
 
-        stage('Publish Results') {
-            steps {
-                publishHTML(target: [
-                    reportName: 'Robot Framework Report',
-                    reportDir: 'results',
-                    reportFiles: 'report.html',
-                    keepAll: true,
-                    alwaysLinkToLastBuild: true,
-                    allowMissing: false
-                ])
-            }
+    stage('Publish Results') {
+        steps {
+            publishHTML(target: [
+                reportName: 'Robot Framework Report',
+                reportDir: 'results',
+                reportFiles: 'report.html',
+                keepAll: true,
+                alwaysLinkToLastBuild: true,
+                allowMissing: false
+            ])
         }
     }
 
