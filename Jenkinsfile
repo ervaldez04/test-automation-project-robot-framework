@@ -42,8 +42,17 @@ pipeline {
         stage('Publish Results') {
             steps {
                 script {
-                    // Merge all outputs into one consolidated report
-                    bat "rebot --merge --output results/output.xml --report results/report.html --log results/log.html results/*/output.xml"
+                    def xmlFiles = []
+                    new File("${env.WORKSPACE}/results").eachDir { dir ->
+                    def xml = new File(dir, "output.xml")
+                    if (xml.exists()) {
+                    xmlFiles << xml.getPath()
+                    } }
+                    if (xmlFiles) {
+                        bat "rebot --merge --output results/output.xml --report results/report.html --log results/log.html ${xmlFiles.join(' ')}"
+                    } else {
+                        echo "⚠ No output.xml files found to merge"
+                    }
                 }
                 publishHTML(target: [
                     reportName: 'Robot Framework Report',
