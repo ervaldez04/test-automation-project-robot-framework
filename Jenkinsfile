@@ -15,6 +15,7 @@ pipeline {
             description: 'Select one or more test folders to run',
             multiSelectDelimiter: ','
         )
+    }
 
     stages {
         stage('Debug Webhook') {
