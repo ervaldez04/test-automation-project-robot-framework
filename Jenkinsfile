@@ -9,16 +9,18 @@ pipeline {
         booleanParam(name: 'HEADLESS', defaultValue: true, description: 'Run browser in headless mode')
         string(name: 'BROWSER', defaultValue: 'chrome', description: 'Browser to use for tests')
         activeChoiceParam('TEST_FOLDERS') {
-            description('Select one or more test folders to run')
-            filterable(true)
-            choiceType('CHECKBOX')   // or 'MULTI_SELECT'
-            groovyScript {
-                script("""
-                    // Instead of using WORKSPACE (not available yet), list static folders
-                    return ['PlaygroundBank', 'SwagLabs']
-                """)
-                fallbackScript("return ['Error detecting folders']")
-            }
+        description('Select one or more test folders to run')
+        choiceType('CHECKBOX')   // or MULTI_SELECT
+        groovyScript {
+            script("""
+                def baseDir = new File("${WORKSPACE}/TestSuite")
+                if (baseDir.exists()) {
+                    return baseDir.list().findAll { new File(baseDir, it).isDirectory() }
+                } else {
+                    return ['No folders found']
+                }
+            """)
+            fallbackScript("return ['Error detecting folders']")
         }
     }
     
@@ -42,7 +44,7 @@ pipeline {
             steps {
                 script {
                     def headlessValue = params.HEADLESS ? "True" : "False"
-                    def folders = params.TEST_FOLDERS.tokenize(',')
+                    def folders = params.TEST_FOLDERS.split(',')
                     for (folder in folders) {
                         echo "▶ Running tests in TestSuite/${folder}"
                         bat "python -m robot --variable BROWSER:${params.BROWSER} --variable HEADLESS:${headlessValue} --outputdir results/${folder.replaceAll('/', '_')} TestSuite/${folder}"
