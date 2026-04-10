@@ -8,6 +8,11 @@ pipeline {
     parameters {
         booleanParam(name: 'HEADLESS', defaultValue: true, description: 'Run browser in headless mode')
         string(name: 'BROWSER', defaultValue: 'chrome', description: 'Browser to use for tests')
+        choice(
+        name: 'TEST_FOLDER',
+        choices: ['TestSuite/PlaygroundBank', 'TestSuite/SwagLabs', 'TestSuite/Inventory'],
+        description: 'Select one test folder to run'
+        )
     }
 
     stages {
@@ -37,7 +42,7 @@ pipeline {
             steps {
                 script {
                     def headlessValue = params.HEADLESS ? "True" : "False"
-                    bat "python -m robot --variable BROWSER:${params.BROWSER} --variable HEADLESS:${headlessValue} --outputdir results TestSuite/"
+                    bat "python -m robot --variable BROWSER:${params.BROWSER} --variable HEADLESS:${headlessValue} --outputdir results ${params.TEST_FOLDER}"
                 }
             }
         }
