@@ -16,7 +16,7 @@ pipeline {
             multiSelectDelimiter: ','
         )
     }
-
+    
     stages {
         stage('Debug Webhook') {
             steps {
