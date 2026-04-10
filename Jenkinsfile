@@ -10,7 +10,7 @@ pipeline {
         string(name: 'BROWSER', defaultValue: 'chrome', description: 'Browser to use for tests')
         choice(
         name: 'TEST_FOLDER',
-        choices: ['TestSuite/PlaygroundBank', 'TestSuite/SwagLabs', 'TestSuite/Inventory'],
+        choices: ['TestSuite/PlaygroundBank', 'TestSuite/SwagLabs'],
         description: 'Select one test folder to run'
         )
     }
