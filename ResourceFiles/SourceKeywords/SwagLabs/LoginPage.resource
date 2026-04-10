@@ -34,6 +34,32 @@ Navigate to Login Page
     [Documentation]    Navigate to Login Page
     Go To    ${LOGIN_URL}
 
+Navigate to Login Page and Login
+    [Documentation]    Navigate to Login Page and login
+    [Arguments]    ${username}    ${password}
+    Navigate to Login Page
+    Enter Credentials and Click Login       ${username}    ${password}
+
+Open Browser and Login
+    [Documentation]    Open specific browser and logins
+    [Arguments]    ${browser}    ${is_headless}    ${username}    ${password}
+    ### Check if browser is open ###
+    ${is_open}=    Run Keyword And Return Status    Get Location
+    Run Keyword If    '${is_open}'=='${False}'    Run Keywords
+    ...    Open Browser With Options   ${LOGIN_URL}    ${browser}    ${is_headless}
+    ...    AND    Enter Credentials and Click Login    ${username}    ${password}
+    ...    ELSE    Log    Browser already open
+    ### Check if in Swag Labs and login ###
+    ${current_url}=    Get Location
+    ${in_swag_labs}    Run Keyword And Return Status    Should Contain    ${current_url}    ${LOGIN_URL}
+    Run Keyword If    '${in_swag_labs}'=='${True}' and '${current_url}'!='${LOGIN_URL}'    Log    Browser is already login in QA Playground Bank
+    ...    ELSE IF    '${in_swag_labs}'=='${True}' and '${current_url}'=='${LOGIN_URL}'    Enter Credentials and Click Login    ${username}    ${password}
+    ...    ELSE    Navigate to Login Page and Login    ${username}    ${password}
+    ### Validate if login successfully ###
+    ${is_successful_login}    Run Keyword And Return Status    Validate Successful Login
+    Run Keyword If    '${is_successful_login}'=='${True}'    Log    Login Successfully!
+    ...    ELSE    Fail    Login not successful! Check credentials
+
 ### VALIDATION ###
 Validate Password Field Type
     [Documentation]    Validate password field type

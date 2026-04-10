@@ -1,6 +1,7 @@
 *** Settings ***
 
 ### Libraries ###
+Library    Collections
 Library    DateTime
 Library    OperatingSystem
 Library    SeleniumLibrary
