@@ -42,14 +42,12 @@ pipeline {
         stage('Publish Results') {
             steps {
                 script {
-                    def xmlFiles = []
-                    new File("${env.WORKSPACE}/results").eachDir { dir ->
-                    def xml = new File(dir, "output.xml")
-                    if (xml.exists()) {
-                    xmlFiles << xml.getPath()
-                    } }
+                    // Collect all Robot Framework output.xml files under results/
+                    def xmlFiles = findFiles(glob: 'results/**/output.xml')
                     if (xmlFiles) {
-                        bat "rebot --merge --output results/output.xml --report results/report.html --log results/log.html ${xmlFiles.join(' ')}"
+                        def paths = xmlFiles.collect { it.path }.join(' ')
+                        echo "Merging Robot outputs: ${paths}"
+                        bat "python -m robot.rebot --merge --output results/output.xml --report results/report.html --log results/log.html ${paths}"
                     } else {
                         echo "⚠ No output.xml files found to merge"
                     }
