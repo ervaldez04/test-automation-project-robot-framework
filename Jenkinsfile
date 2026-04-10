@@ -8,10 +8,6 @@ pipeline {
     parameters {
         booleanParam(name: 'HEADLESS', defaultValue: true, description: 'Run browser in headless mode')
         string(name: 'BROWSER', defaultValue: 'chrome', description: 'Browser to use for tests')
-        activeChoiceParam('TEST_FOLDERS') {
-        description('Select one or more test folders to run')
-        choiceType('CHECKBOX')   // or MULTI_SELECT
-        }
     }
     
     stages {
