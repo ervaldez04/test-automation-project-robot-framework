@@ -2,7 +2,7 @@
 Documentation     Test Case for Swag Labs Login functionality
 Resource          ../../Configurations/ImportFileSource/SwagLabsFileSource.robot
 Test Tags         LoginFunctionality
-Suite Setup       Open Browser With Options   ${LOGIN_URL}    ${BROWSER}    ${True}
+Suite Setup       Open Browser With Options   ${LOGIN_URL}    ${BROWSER}    ${HEADLESS}
 Suite Teardown    Close All Browsers
 Test Setup        Navigate to Login Page
 
