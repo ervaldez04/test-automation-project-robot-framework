@@ -13,11 +13,18 @@ Open Browser With Options
     [Arguments]    ${url}    ${browser}    ${headless}
 
     ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
+    ### Run Headless ###
     Run Keyword If    '${headless}'=='${True}'    Call Method    ${options}    add_argument    --headless
+    ### Run in Jenkins ###
     Call Method    ${options}    add_argument    --no-sandbox
     Call Method    ${options}    add_argument    --disable-dev-shm-usage
     Run Keyword If    '${headless}'=='${True}'    Call Method    ${options}    add_argument    --disable-gpu
+    ### Set window size ###
     Call Method    ${options}    add_argument    --window-size\=1920,1080
+    ### Disable Google Password Manager ###
+    Call Method    ${options}    add_argument    --disable-automation-extension
+    Call Method    ${options}    add_argument    --disable-infobars
+    Call Method    ${options}    add_argument    --incognito
     Log    ${options}
 
     Create WebDriver    ${WEBDRIVER_CHROME}    options=${options}

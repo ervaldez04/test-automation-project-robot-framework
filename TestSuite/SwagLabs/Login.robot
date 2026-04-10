@@ -11,9 +11,6 @@ Should be able to login using valid credential
     [Documentation]    User should be able to login successfully using valid credentials
     [Tags]    Smoke    Regression    Positive
     Enter Credentials and Click Login    ${VALID_USER}    ${VALID_PASSWORD}
-    # Enter Username    ${VALID_USER}
-    # Enter Password    ${VALID_PASSWORD}
-    # Click Login Button
     Validate Successful Login
 
 Should not be able to login using invalid credential
