@@ -6,23 +6,32 @@ pipeline {
     }
 
     parameters {
-        booleanParam(name: 'HEADLESS', defaultValue: true, description: 'Run browser in headless mode')
-        string(name: 'BROWSER', defaultValue: 'chrome', description: 'Browser to use for tests')
+        booleanParam(
+            name: 'HEADLESS', 
+            defaultValue: true, 
+            description: 'Run browser in headless mode'
+        )
+        string(
+            name: 'BROWSER', 
+            defaultValue: 'chrome', 
+            description: 'Browser to use for tests'
+        )
         choice(
-        name: 'TEST_FOLDER',
-        choices: ['TestSuite/PlaygroundBank', 'TestSuite/SwagLabs'],
-        description: 'Select one test folder to run'
+            name: 'TEST_FOLDER',
+            choices: ['TestSuite/PlaygroundBank', 'TestSuite/SwagLabs'],
+            description: 'Select one test folder to run'
+        )
+        choice(
+            name: 'INCLUDE_TAG',
+            choices: ['none', 'Smoke', 'Regression', 'Performance', 'Sanity', 'Positive', 'Negative'],
+            description: 'Select a tag to include (or none)'
+        )
+        choice(
+            name: 'EXCLUDE_TAG',
+            choices: ['none', 'Slow', 'Flaky', 'Deprecated'],
+            description: 'Select a tag to exclude (or none)'
         )
     }
-
-    stages {
-        stage('Debug Webhook') {
-            steps {
-                echo "Action: ${env.action}"
-                echo "Merged: ${env.merged}"
-                echo "Branch: ${env.branch}"
-            }
-        }
         
         stage('Checkout') {
             steps {
@@ -32,9 +41,9 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                    bat 'python -m pip install --upgrade pip'
-                    bat 'pip install -r requirements.txt'
-                    bat 'python --version'
+                bat 'python -m pip install --upgrade pip'
+                bat 'pip install -r requirements.txt'
+                bat 'python --version'
             }
         }
 
@@ -42,7 +51,10 @@ pipeline {
             steps {
                 script {
                     def headlessValue = params.HEADLESS ? "True" : "False"
-                    bat "python -m robot --variable BROWSER:${params.BROWSER} --variable HEADLESS:${headlessValue} --outputdir results ${params.TEST_FOLDER}"
+                    def includeOption = params.INCLUDE_TAG != 'none' ? "--include ${params.INCLUDE_TAG}" : ""
+                    def excludeOption = params.EXCLUDE_TAG != 'none' ? "--exclude ${params.EXCLUDE_TAG}" : ""
+                    
+                    bat "python -m robot --variable BROWSER:${params.BROWSER} --variable HEADLESS:${headlessValue} --outputdir results ${includeOption} ${excludeOption} ${params.TEST_FOLDER}"
                 }
             }
         }
