@@ -5,6 +5,7 @@ Library    Collections
 Library    DateTime
 Library    OperatingSystem
 Library    SeleniumLibrary
+Library    String
 
 ### Keywords ###
 Resource    ../../ResourceFiles/GenericKeywords/GenericKeywords.resource

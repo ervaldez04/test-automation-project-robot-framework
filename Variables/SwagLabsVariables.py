@@ -11,6 +11,11 @@ LOCKED_USER = "locked_out_user"
 VALID_PASSWORD = "secret_sauce"
 VALID_USER = "standard_user"
 
+### Items ###
+ADDED_ITEMS = ["Sauce Labs Bolt T-Shirt", "Sauce Labs Bike Light"]
+MULTIPLE_ITEMS = ["Sauce Labs Backpack", "Sauce Labs Bike Light", "Sauce Labs Onesie"]
+SINGLE_ITEM = ["Sauce Labs Backpack"]
+
 ### Login Error Message ###
 LOGIN_INVALID_CREDENTIAL_ERROR_MESSAGE = "Epic sadface: Username and password do not match any user in this service"
 LOGIN_LOCKED_USER_ERROR_MESSAGE = "Epic sadface: Sorry, this user has been locked out"
