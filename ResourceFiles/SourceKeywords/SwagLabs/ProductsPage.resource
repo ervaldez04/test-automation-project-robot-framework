@@ -4,11 +4,39 @@ Documentation    Keywords used in Products Page of Swag Labs
 Resource         ../../../Configurations/ImportKeyword/SwagLabsKeywords.robot
 
 *** Keywords ***
+Add Item To Cart
+    [Documentation]    Add item to cart
+    [Arguments]    @{items}
+    FOR    ${item}    IN    @{items}
+        ${item_to_add}    Convert To Lowercase    ${item}
+        ${item_to_add}    Replace String    ${item_to_add}    ${SPACE}    -
+        Log    ${item_to_add}
+        ${locator}=    Replace String    ${ADD_TO_CART_BUTTON}    __ITEM__    ${item_to_add}
+        Click Button    ${locator}
+    END
+
 Navigate to Products Page
     [Documentation]    Navigate to Products Page
     ${current_URL}    Get Location
     Run Keyword If    '${current_URL}'=='${INVENTORY_URL}'    Log    Page already in Dashboard Page
     ...    ELSE    Go To    ${INVENTORY_URL}
+
+Navigate to Products Page and Add Item to Cart
+    [Documentation]    Navigate to Products Page then add item to cart
+    [Arguments]    @{items}
+    Navigate to Products Page
+    Add Item To Cart    @{items}
+
+Remove Item In Cart
+    [Documentation]    Remove item in cart
+    [Arguments]    @{items}
+    FOR    ${item}    IN    @{items}
+        ${item_to_remove}    Convert To Lowercase    ${item}
+        ${item_to_remove}    Replace String    ${item_to_remove}    ${SPACE}    -
+        Log    ${item_to_remove}
+        ${locator}=    Replace String    ${REMOVE_BUTTON}    __ITEM__    ${item_to_remove}
+        Click Button    ${locator}
+    END
 
 Select Sort Option
     [Documentation]    Select sort to use
@@ -21,6 +49,52 @@ Select Sort Option
     ...    ELSE    FAIL    Check sort used!
     
 ### VALIDATION ###
+Validate Add To Cart Button is not displayed
+    [Documentation]    Validate add to cart button is not displayed
+    [Arguments]    @{items}
+    ${is_list}=    Evaluate    isinstance($items, (list, tuple))
+    ${items}=    Run Keyword If    '${is_list}'=='${True}'    Create List    ${items}
+    FOR    ${item}    IN    @{items}
+        ### If item came in as a list element, extract the clean string ###
+        ${is_str}=    Evaluate    isinstance($item, str)
+        ${item}=    Run Keyword If    '${is_list}'=='${True}'    Set Variable    ${item[0]}
+        ### Convert Item ###
+        ${item_to_validate}    Convert To Lowercase    ${item}
+        ${item_to_validate}    Remove String    ${item_to_validate}    [ ] ' '
+        ${item_to_validate}    Replace String    ${item_to_validate}    ${SPACE}    -
+        Log    ${item_to_validate}
+        ### Update locator ###
+        ${locator}=    Replace String    ${ADD_TO_CART_BUTTON}    __ITEM__    ${item_to_validate}
+        ### Validate ###
+        Page Should Not Contain Button    ${locator}
+    END
+
+Validate Item is Added to Cart
+    [Documentation]    Validate item is added to cart
+    [Arguments]    @{items}
+    ### Normalize Item ###
+    ${is_list}=    Evaluate    isinstance($items, (list, tuple))
+    ${items}=    Run Keyword If    '${is_list}'=='${True}'    Create List    ${items}
+    ### Validate number of item in cart ###
+    ${count}=    Get Length    @{items}
+    ${debu}    Get Text    ${CART_ICON}
+    Element Text Should Be    ${CART_ICON}    ${count}
+    ### Validate item is added successfully
+    FOR    ${item}    IN    @{items}
+        ### If item came in as a list element, extract the clean string ###
+        ${is_str}=    Evaluate    isinstance($item, str)
+        ${item}=    Run Keyword If    '${is_list}'=='${True}'    Set Variable    ${item[0]}
+        ### Convert Item ###
+        ${item_to_validate}    Convert To Lowercase    ${item}
+        ${item_to_validate}    Remove String    ${item_to_validate}    [ ] ' '
+        ${item_to_validate}    Replace String    ${item_to_validate}    ${SPACE}    -
+        Log    ${item_to_validate}
+        ### Update locator ###
+        ${locator}=    Replace String    ${REMOVE_BUTTON}    __ITEM__    ${item_to_validate}
+        ### Validate ###
+        Page Should Contain Button    ${locator}
+    END
+
 Validate Sort Option
     [Documentation]    Validate sort option
     ...    ${type} is either Price or Name

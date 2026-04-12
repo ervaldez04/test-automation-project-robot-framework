@@ -74,4 +74,3 @@ Validate Login Error
 Validate Successful Login
     [Documentation]    Validate login successfully
     Wait Until Keyword Succeeds    10s    2s    Location Should Be    ${INVENTORY_URL}
-    # Page Should Contain Element    ${LOGOUT_BUTTON}

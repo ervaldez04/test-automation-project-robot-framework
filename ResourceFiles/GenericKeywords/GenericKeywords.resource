@@ -5,13 +5,14 @@ Resource          ../../Configurations/ImportGenericFile/GenericFile.robot
 
 *** Keywords ***
 Get System Date
-    [Documentation]    Generate System Date
+    [Documentation]    Generate system date
     ${date}    Get Current Date    result_format=%Y-%m-%d
     Log    ${date}
+    RETURN    ${date}
 
 Open Browser With Options
+    [Documentation]    Open browser with options
     [Arguments]    ${url}    ${browser}    ${headless}
-
     ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
     ### Run Headless ###
     Run Keyword If    '${headless}'=='${True}'    Call Method    ${options}    add_argument    --headless
