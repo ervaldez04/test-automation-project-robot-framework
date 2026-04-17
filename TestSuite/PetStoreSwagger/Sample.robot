@@ -1,9 +1,7 @@
 *** Settings ***
-Library    RequestsLibrary
-Library    JSONLibrary
-
-*** Variables ***
-${BASE_URL}    https://petstore.swagger.io/v2
+Documentation    Test Case for Sample API Test
+Resource         ../../Configurations/ImportFileSource/PetStoreSwaggerFileSource.robot
+Test Tags        API
 
 *** Test Cases ***
 Get Pets By Status
