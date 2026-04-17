@@ -30,7 +30,7 @@ Error Message should display if Username field is blank
     [Tags]    Regression    Negative
     Enter Credentials and Click Login    ${EMPTY}    ${VALID_PASSWORD}
     Validate Login Error    ${LOGIN_USERNAME_ERROR_MESSAGE}
-    
+
 Error Message should display if Password field is blank
     [Documentation]    User should be able to see error message when password is blank
     [Tags]    Regression    Negative

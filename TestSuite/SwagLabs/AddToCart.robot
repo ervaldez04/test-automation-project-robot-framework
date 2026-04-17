@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     Test Case for Swag Labs Add To Cart functionality
 Resource          ../../Configurations/ImportFileSource/SwagLabsFileSource.robot
-Test Tags         SortFunctionality
+Test Tags         AddToCartFunctionality
 Suite Setup       Open Browser and Login    ${BROWSER}    ${HEADLESS}    ${VALID_USER}    ${VALID_PASSWORD}
 Suite Teardown    Close All Browsers
 
