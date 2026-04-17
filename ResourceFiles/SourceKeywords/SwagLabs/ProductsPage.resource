@@ -14,6 +14,8 @@ Add Item To Cart
         ${locator}=    Replace String    ${ADD_TO_CART_BUTTON}    __ITEM__    ${item_to_add}
         Click Button    ${locator}
     END
+    ${current_cart_count}    Get Text    ${CART_ICON}
+    Set Global Variable    ${current_cart_count}
 
 Navigate to Products Page
     [Documentation]    Navigate to Products Page
@@ -91,6 +93,35 @@ Validate Item is Added to Cart
         Log    ${item_to_validate}
         ### Update locator ###
         ${locator}=    Replace String    ${REMOVE_BUTTON}    __ITEM__    ${item_to_validate}
+        ### Validate ###
+        Page Should Contain Button    ${locator}
+    END
+
+Validate Item is Removed from Cart
+    [Documentation]    Validate item is removed from cart
+    [Arguments]    @{items}
+    ### Normalize Item ###
+    ${is_list}=    Evaluate    isinstance($items, (list, tuple))
+    ${items}=    Run Keyword If    '${is_list}'=='${True}'    Create List    ${items}
+    ### Validate number of item in cart ###
+    ${count}=    Get Length    @{items}
+    ${current_cart_count}    Convert To Integer    ${current_cart_count}
+    ${count}    Convert To Integer    ${count}
+    ${new_count}    Evaluate    ${current_cart_count}-${count}
+    Run Keyword If    '${new_count}'=='0'    Element Should Not Be Visible    ${CART_ICON}
+    ...    ELSE    Element Text Should Be    ${CART_ICON}    ${new_count}
+    ### Validate item is removed successfully
+    FOR    ${item}    IN    @{items}
+        ### If item came in as a list element, extract the clean string ###
+        ${is_str}=    Evaluate    isinstance($item, str)
+        ${item}=    Run Keyword If    '${is_list}'=='${True}'    Set Variable    ${item[0]}
+        ### Convert Item ###
+        ${item_to_validate}    Convert To Lowercase    ${item}
+        ${item_to_validate}    Remove String    ${item_to_validate}    [ ] ' '
+        ${item_to_validate}    Replace String    ${item_to_validate}    ${SPACE}    -
+        Log    ${item_to_validate}
+        ### Update locator ###
+        ${locator}=    Replace String    ${ADD_TO_CART_BUTTON}    __ITEM__    ${item_to_validate}
         ### Validate ###
         Page Should Contain Button    ${locator}
     END
