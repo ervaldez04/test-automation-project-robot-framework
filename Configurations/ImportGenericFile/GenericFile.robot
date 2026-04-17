@@ -3,7 +3,9 @@
 ### Libraries ###
 Library    Collections
 Library    DateTime
+Library    JSONLibrary
 Library    OperatingSystem
+Library    RequestsLibrary
 Library    SeleniumLibrary
 Library    String
 
