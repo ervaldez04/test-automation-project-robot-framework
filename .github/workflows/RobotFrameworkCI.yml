@@ -34,6 +34,11 @@ jobs:
             echo "❌ Branch is not up to date with main."
             exit 1
           fi
+
+      - name: 📂 Debug file paths
+        run: |
+          echo "Current working directory: $(pwd)"
+          ls -R
       
       - name: 🐍 Set up Python
         uses: actions/setup-python@v3
@@ -94,6 +99,7 @@ jobs:
    
       - name: 🖥️ Test with RobotFramework
         run: |
+          ### Run from repo root, but Robot will resolve ${CURDIR} inside each suite
           robot \
                 --variable HEADLESS:True \
                 --outputdir results \
