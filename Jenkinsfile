@@ -18,7 +18,7 @@ pipeline {
         )
         choice(
             name: 'TEST_FOLDER',
-            choices: ['TestSuite/PlaygroundBank', 'TestSuite/SwagLabs'],
+            choices: ['TestSuite/PlaygroundBank', 'TestSuite/SwagLabs', 'TestSuite/PetStoreSwagger'],
             description: 'Select one test folder to run'
         )
         choice(
@@ -28,7 +28,7 @@ pipeline {
         )
         choice(
             name: 'EXCLUDE_TAG',
-            choices: ['none', 'Slow', 'Flaky', 'Deprecated'],
+            choices: ['none', 'Slow', 'Flaky', 'Deprecated', 'Bug'],
             description: 'Select a tag to exclude (or none)'
         )
     }
